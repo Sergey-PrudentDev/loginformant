@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "loginformant-logging"
+version = "1.0.0"
+description = "Python logging handler for LogInformant — centralized log management."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.8"
+dependencies = []
+keywords = ["logging", "loginformant", "monitoring", "handler"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Topic :: System :: Logging",
+]
+
+[project.urls]
+Homepage = "https://loginformant.com"
+Repository = "https://github.com/Sergey-PrudentDev/loginformant"

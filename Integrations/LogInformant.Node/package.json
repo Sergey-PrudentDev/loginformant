@@ -1,0 +1,34 @@
+{
+  "name": "@loginformant/node",
+  "version": "1.0.0",
+  "description": "Send logs to LogInformant from Node.js. Includes a Winston transport and a standalone logger.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": ["logging", "loginformant", "winston", "transport", "monitoring"],
+  "author": "PrudentApps",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Sergey-PrudentDev/loginformant"
+  },
+  "peerDependencies": {
+    "winston": ">=3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "winston": { "optional": true }
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/winston": "^2.4.4",
+    "typescript": "^5.0.0",
+    "winston": "^3.11.0"
+  }
+}

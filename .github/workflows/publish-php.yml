@@ -1,0 +1,73 @@
+name: Publish loginformant/monolog-handler to Packagist
+
+on:
+  push:
+    tags:
+      - "php/v*"   # Trigger on tags like: php/v1.0.0
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          tools: composer
+
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF_NAME#php/v}" >> "$GITHUB_OUTPUT"
+
+      - name: Validate Composer package
+        working-directory: Integrations/LogInformant.PHP
+        run: composer validate --strict --no-check-publish
+
+      - name: Push PHP package split repo
+        env:
+          PHP_SPLIT_REPO: ${{ vars.PHP_SPLIT_REPO }}
+          PHP_SPLIT_REPO_TOKEN: ${{ secrets.PHP_SPLIT_REPO_TOKEN }}
+          VERSION: ${{ steps.version.outputs.VERSION }}
+        run: |
+          if [ -z "$PHP_SPLIT_REPO" ]; then
+            echo "Missing repository variable PHP_SPLIT_REPO, for example: Sergey-PrudentDev/loginformant-monolog"
+            exit 1
+          fi
+          if [ -z "$PHP_SPLIT_REPO_TOKEN" ]; then
+            echo "Missing secret PHP_SPLIT_REPO_TOKEN with write access to $PHP_SPLIT_REPO"
+            exit 1
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git subtree split --prefix=Integrations/LogInformant.PHP -b php-package-split
+          git remote add php-split "https://x-access-token:${PHP_SPLIT_REPO_TOKEN}@github.com/${PHP_SPLIT_REPO}.git"
+          git push php-split php-package-split:main
+
+          git tag -f "v${VERSION}" php-package-split
+          git push php-split "v${VERSION}" --force
+
+      - name: Trigger Packagist update
+        env:
+          PACKAGIST_USERNAME: ${{ secrets.PACKAGIST_USERNAME }}
+          PACKAGIST_TOKEN: ${{ secrets.PACKAGIST_TOKEN }}
+          PHP_SPLIT_REPO: ${{ vars.PHP_SPLIT_REPO }}
+        run: |
+          if [ -z "$PACKAGIST_USERNAME" ] || [ -z "$PACKAGIST_TOKEN" ]; then
+            echo "Packagist credentials are not configured; skipping immediate Packagist update."
+            exit 0
+          fi
+
+          curl -XPOST \
+            -H "Content-Type: application/json" \
+            "https://packagist.org/api/update-package?username=${PACKAGIST_USERNAME}&apiToken=${PACKAGIST_TOKEN}" \
+            -d "{\"repository\":{\"url\":\"https://github.com/${PHP_SPLIT_REPO}\"}}"

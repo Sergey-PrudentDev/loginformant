@@ -1,0 +1,15 @@
+{
+  "id": "loginformant",
+  "name": "LogInformant",
+  "version": "1.0.0",
+  "description": "Application log monitoring, alerting, and diagnostics for modern teams.",
+  "main": "index.js",
+  "author": "PrudentDev, LLC",
+  "license": "MIT",
+  "config": {
+    "serviceURL": "https://app.loginformant.com/",
+    "hasNotificationSound": true,
+    "hasIndirectMessages": false
+  },
+  "defaultIcon": "https://app.loginformant.com/logo.png"
+}

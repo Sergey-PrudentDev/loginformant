@@ -1,0 +1,65 @@
+name: Publish loginformant-logging to PyPI
+
+on:
+  push:
+    tags:
+      - "python/v*"   # Trigger on tags like: python/v1.0.0
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write  # Required for Trusted Publishing (OIDC) — no API token needed
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF_NAME#python/v}" >> "$GITHUB_OUTPUT"
+
+      - name: Install build tools
+        run: pip install build
+
+      - name: Stamp package version
+        working-directory: Integrations/LogInformant.Python
+        env:
+          PACKAGE_VERSION: ${{ steps.version.outputs.VERSION }}
+        run: |
+          python - <<'PY'
+          import os
+          import re
+          from pathlib import Path
+
+          path = Path("pyproject.toml")
+          text = path.read_text(encoding="utf-8")
+          updated = re.sub(
+              r'(?m)^version = "[^"]+"$',
+              f'version = "{os.environ["PACKAGE_VERSION"]}"',
+              text,
+              count=1,
+          )
+          if updated == text:
+              raise SystemExit("Could not find project version in pyproject.toml")
+          path.write_text(updated, encoding="utf-8")
+          PY
+
+      - name: Build distribution
+        working-directory: Integrations/LogInformant.Python
+        run: python -m build
+
+      - name: Publish to PyPI (Trusted Publishing)
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: Integrations/LogInformant.Python/dist/
+          # No API token needed — uses OIDC Trusted Publishing.
+          # One-time setup required on pypi.org:
+          #   Your Projects → loginformant-logging → Publishing → Add a trusted publisher
+          #   Owner: <your-github-org>, Repo: loginformant, Workflow: publish-python.yml

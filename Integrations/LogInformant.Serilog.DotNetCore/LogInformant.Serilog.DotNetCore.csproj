@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <!-- NuGet Package Metadata -->
+    <PackageId>LogInformant.Serilog.DotNetCore</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>PrudentApps</Authors>
+    <Company>PrudentApps</Company>
+    <Description>A Serilog sink for .NET 6+ that sends logs to LogInformant for centralized log management and monitoring.</Description>
+    <PackageTags>serilog;logging;loginformant;sink;monitoring;dotnet;aspnetcore</PackageTags>
+    <PackageProjectUrl>https://github.com/Sergey-PrudentDev/loginformant</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Sergey-PrudentDev/loginformant</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog" Version="4.3.0" />
+    <PackageReference Include="Serilog.Sinks.PeriodicBatching" Version="5.0.0" />
+  </ItemGroup>
+
+</Project>

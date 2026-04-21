@@ -1,0 +1,45 @@
+name: Publish @loginformant/node to npm
+
+on:
+  push:
+    tags:
+      - "node/v*"   # Trigger on tags like: node/v1.0.0, node/v1.1.0
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write  # Required for npm provenance
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF_NAME#node/v}" >> "$GITHUB_OUTPUT"
+
+      - name: Install dependencies
+        working-directory: Integrations/LogInformant.Node
+        run: npm ci
+
+      - name: Stamp package version
+        working-directory: Integrations/LogInformant.Node
+        run: npm version "${{ steps.version.outputs.VERSION }}" --no-git-tag-version --allow-same-version
+
+      - name: Build
+        working-directory: Integrations/LogInformant.Node
+        run: npm run build
+
+      - name: Publish to npm
+        working-directory: Integrations/LogInformant.Node
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

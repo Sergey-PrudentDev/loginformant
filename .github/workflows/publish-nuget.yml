@@ -1,0 +1,63 @@
+name: Publish NuGet packages to NuGet.org
+
+# Publishes all four .NET integration packages in a single run.
+# Trigger by pushing a tag like:  nuget/v1.0.0  (versions all packages together)
+#
+# Required GitHub secret:
+#   NUGET_API_KEY — from nuget.org → Account → API Keys → Create
+
+on:
+  push:
+    tags:
+      - "nuget/v*"   # e.g. nuget/v1.0.0, nuget/v1.1.0
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        package:
+          - path: Integrations/LogInformant.Serilog.DotNetCore
+            name: LogInformant.Serilog.DotNetCore
+          - path: Integrations/LogInformant.Serilog.DotNetFramework
+            name: LogInformant.Serilog.DotNetFramework
+          - path: Integrations/LogInformant.NLog
+            name: LogInformant.NLog
+          - path: Integrations/LogInformant.Log4Net
+            name: LogInformant.Log4Net
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.x"
+
+      - name: Extract version from tag
+        id: version
+        # Tag is nuget/v1.2.3  →  version = 1.2.3
+        run: echo "VERSION=${GITHUB_REF_NAME#nuget/v}" >> "$GITHUB_OUTPUT"
+
+      - name: Restore dependencies
+        run: dotnet restore ${{ matrix.package.path }}
+
+      - name: Build
+        run: dotnet build ${{ matrix.package.path }} --configuration Release --no-restore
+
+      - name: Pack
+        run: |
+          dotnet pack ${{ matrix.package.path }} \
+            --configuration Release \
+            --no-build \
+            --output nupkgs \
+            -p:PackageVersion=${{ steps.version.outputs.VERSION }}
+
+      - name: Push to NuGet.org
+        run: |
+          dotnet nuget push nupkgs/*.nupkg \
+            --api-key ${{ secrets.NUGET_API_KEY }} \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate

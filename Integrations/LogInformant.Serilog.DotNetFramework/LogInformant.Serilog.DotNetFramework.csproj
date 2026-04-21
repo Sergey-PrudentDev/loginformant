@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+
+    <PackageId>LogInformant.Serilog.DotNetFramework</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>PrudentApps</Authors>
+    <Company>PrudentApps</Company>
+    <Description>A Serilog sink for .NET Framework 4.8 that sends logs to LogInformant for centralized log management and monitoring.</Description>
+    <PackageTags>serilog;logging;loginformant;sink;monitoring;dotnetframework;net48</PackageTags>
+    <PackageProjectUrl>https://github.com/Sergey-PrudentDev/loginformant</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Sergey-PrudentDev/loginformant</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog" Version="4.3.0" />
+    <PackageReference Include="Serilog.Sinks.PeriodicBatching" Version="5.0.0" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="System.Text.Json" Version="9.0.2" />
+  </ItemGroup>
+
+</Project>

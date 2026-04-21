@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net48;netstandard2.0</TargetFrameworks>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+
+    <PackageId>LogInformant.Log4Net</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>PrudentApps</Authors>
+    <Company>PrudentApps</Company>
+    <Description>A log4net appender that sends logs to LogInformant. Works with .NET Framework 4.8 and .NET 6+.</Description>
+    <PackageTags>log4net;logging;loginformant;appender;monitoring</PackageTags>
+    <PackageProjectUrl>https://github.com/Sergey-PrudentDev/loginformant</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Sergey-PrudentDev/loginformant</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.17" />
+    <PackageReference Include="System.Text.Json" Version="9.0.2" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+
+</Project>

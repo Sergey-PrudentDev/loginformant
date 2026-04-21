@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+
+    <PackageId>LogInformant.NLog</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>PrudentApps</Authors>
+    <Company>PrudentApps</Company>
+    <Description>An NLog target that sends logs to LogInformant. Works with .NET Framework 4.8 and .NET 6+.</Description>
+    <PackageTags>nlog;logging;loginformant;target;monitoring</PackageTags>
+    <PackageProjectUrl>https://github.com/Sergey-PrudentDev/loginformant</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Sergey-PrudentDev/loginformant</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NLog" Version="5.3.4" />
+    <PackageReference Include="System.Text.Json" Version="9.0.2" />
+  </ItemGroup>
+
+</Project>
