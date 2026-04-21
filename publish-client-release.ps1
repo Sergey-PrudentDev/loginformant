@@ -156,8 +156,8 @@ if (-not $Force -and -not [string]::IsNullOrWhiteSpace(($status | Out-String))) 
 $releasePackages = @()
 $tags = @()
 if (-not $SyncOnly) {
-    $releasePackages = Get-ReleasePackages $Package
-    $tags = $releasePackages | ForEach-Object { "$_/v$Version" }
+    $releasePackages = @(Get-ReleasePackages $Package)
+    $tags = @($releasePackages | ForEach-Object { "$_/v$Version" })
 }
 
 $clientPaths = @(
