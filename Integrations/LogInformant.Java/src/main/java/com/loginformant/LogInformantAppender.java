@@ -123,13 +123,19 @@ public class LogInformantAppender extends AppenderBase<ILoggingEvent> {
     }
 
     private static String mapLevel(String level) {
-        return switch (level.toUpperCase()) {
-            case "TRACE", "DEBUG" -> "Debug";
-            case "INFO"            -> "Information";
-            case "WARN"            -> "Warning";
-            case "ERROR"           -> "Error";
-            default                -> "Fatal";
-        };
+        switch (level.toUpperCase()) {
+            case "TRACE":
+            case "DEBUG":
+                return "Debug";
+            case "INFO":
+                return "Information";
+            case "WARN":
+                return "Warning";
+            case "ERROR":
+                return "Error";
+            default:
+                return "Fatal";
+        }
     }
 
     private static String formatThrowable(IThrowableProxy tp) {
