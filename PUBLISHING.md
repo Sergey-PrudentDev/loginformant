@@ -2,7 +2,7 @@
 
 Last checked: 2026-04-21
 
-NuGet is already live for the four .NET client packages. npm, PyPI, and Packagist are also live. The remaining first release is Maven Central.
+NuGet is already live for the four .NET client packages. npm, PyPI, Packagist, and Maven Central are also live.
 
 ## Current Publishing State
 
@@ -10,7 +10,7 @@ NuGet is already live for the four .NET client packages. npm, PyPI, and Packagis
 - npm `@loginformant/node`: published at `1.0.0`.
 - PyPI `loginformant`: published at `1.0.0`.
 - Packagist `loginformant/monolog-handler`: published at `1.0.0`.
-- Maven Central `com.loginformant:logback-appender`: not published yet.
+- Maven Central `com.loginformant:logback-appender`: published at `1.0.0`.
 
 Initial public registry checks returned 404 for the four non-.NET package names on 2026-04-21. npm and PyPI were published afterward.
 
