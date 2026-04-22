@@ -36,7 +36,10 @@ jobs:
           PHP_SPLIT_REPO: ${{ vars.PHP_SPLIT_REPO }}
           PHP_SPLIT_REPO_TOKEN: ${{ secrets.PHP_SPLIT_REPO_TOKEN }}
           VERSION: ${{ steps.version.outputs.VERSION }}
+        shell: bash
         run: |
+          set -euo pipefail
+
           if [ -z "$PHP_SPLIT_REPO" ]; then
             echo "Missing repository variable PHP_SPLIT_REPO, for example: Sergey-PrudentDev/loginformant-monolog"
             exit 1
@@ -46,15 +49,20 @@ jobs:
             exit 1
           fi
 
+          split_dir="$(mktemp -d)"
+          cp -R Integrations/LogInformant.PHP/. "$split_dir/"
+
+          cd "$split_dir"
+          git init -b main
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Release loginformant/monolog-handler ${VERSION}"
 
-          git subtree split --prefix=Integrations/LogInformant.PHP -b php-package-split
-          git remote add php-split "https://x-access-token:${PHP_SPLIT_REPO_TOKEN}@github.com/${PHP_SPLIT_REPO}.git"
-          git push php-split php-package-split:main
-
-          git tag -f "v${VERSION}" php-package-split
-          git push php-split "v${VERSION}" --force
+          git remote add origin "https://x-access-token:${PHP_SPLIT_REPO_TOKEN}@github.com/${PHP_SPLIT_REPO}.git"
+          git push origin main --force
+          git tag -f "v${VERSION}"
+          git push origin "v${VERSION}" --force
 
       - name: Trigger Packagist update
         env:
