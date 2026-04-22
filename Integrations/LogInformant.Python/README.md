@@ -1,4 +1,4 @@
-# loginformant-logging
+# loginformant
 
 Send logs to [LogInformant](https://loginformant.com) from **Python 3.8+**.
 
@@ -7,7 +7,7 @@ Send logs to [LogInformant](https://loginformant.com) from **Python 3.8+**.
 ## Install
 
 ```bash
-pip install loginformant-logging
+pip install loginformant
 ```
 
 ## Quick Start

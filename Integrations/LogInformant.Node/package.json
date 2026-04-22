@@ -17,7 +17,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Sergey-PrudentDev/loginformant"
+    "url": "git+https://github.com/Sergey-PrudentDev/loginformant.git"
   },
   "peerDependencies": {
     "winston": ">=3.0.0"

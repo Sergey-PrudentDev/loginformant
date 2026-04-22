@@ -7,12 +7,12 @@ NuGet is already live for the four .NET client packages. The remaining first rel
 ## Current Publishing State
 
 - NuGet: published manually for the four .NET client packages.
-- npm `@loginformant/node`: not published yet.
-- PyPI `loginformant-logging`: not published yet.
+- npm `@loginformant/node`: published at `1.0.0`.
+- PyPI `loginformant`: not published yet.
 - Packagist `loginformant/monolog-handler`: not published yet.
 - Maven Central `com.loginformant:logback-appender`: not published yet.
 
-Public registry checks returned 404 for the four non-.NET package names on 2026-04-21.
+Initial public registry checks returned 404 for the four non-.NET package names on 2026-04-21. npm was published afterward.
 
 ## One Required Foundation Step
 
@@ -106,14 +106,14 @@ Future updates:
 .\publish-client-release.ps1 -Package node -Version 1.0.1 -Remote github
 ```
 
-### 2. PyPI: `loginformant-logging`
+### 2. PyPI: `loginformant`
 
 Why second: no API token if using Trusted Publishing, but PyPI must know about the GitHub workflow.
 
 One-time setup:
 
 1. Sign in to pypi.org.
-2. Add a pending Trusted Publisher for project `loginformant-logging`.
+2. Add a pending Trusted Publisher for project `loginformant`.
 3. Use:
 
 ```text
@@ -132,7 +132,7 @@ Publish:
 Verify:
 
 ```powershell
-python -m pip index versions loginformant-logging
+python -m pip index versions loginformant
 ```
 
 Future updates:

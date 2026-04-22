@@ -1,4 +1,4 @@
-name: Publish loginformant-logging to PyPI
+name: Publish loginformant to PyPI
 
 on:
   push:
@@ -61,5 +61,5 @@ jobs:
           packages-dir: Integrations/LogInformant.Python/dist/
           # No API token needed — uses OIDC Trusted Publishing.
           # One-time setup required on pypi.org:
-          #   Your Projects → loginformant-logging → Publishing → Add a trusted publisher
+          #   Your Projects → loginformant → Publishing → Add a trusted publisher
           #   Owner: <your-github-org>, Repo: loginformant, Workflow: publish-python.yml
