@@ -6,7 +6,7 @@ NuGet is already live for the four .NET client packages. npm, PyPI, Packagist, a
 
 ## Current Publishing State
 
-- NuGet: published manually for the four .NET client packages.
+- NuGet: published manually for the four .NET client packages; add `NUGET_API_KEY` for future automated releases.
 - npm `@loginformant/node`: published at `1.0.0`.
 - PyPI `loginformant`: published at `1.0.0`.
 - Packagist `loginformant/monolog-handler`: published at `1.0.0`.
@@ -61,6 +61,7 @@ Examples:
 .\publish-client-release.ps1 -Package python -Version 1.0.0 -Remote github
 .\publish-client-release.ps1 -Package php -Version 1.0.0 -Remote github
 .\publish-client-release.ps1 -Package java -Version 1.0.0 -Remote github
+.\publish-client-release.ps1 -Package nuget -Version 1.0.0 -Remote github
 ```
 
 Release all remaining non-.NET clients at the same version:
@@ -69,9 +70,31 @@ Release all remaining non-.NET clients at the same version:
 .\publish-client-release.ps1 -Package all-non-dotnet -Version 1.0.0 -Remote github
 ```
 
+Release every client package, including the four NuGet packages:
+
+```powershell
+.\publish-client-release.ps1 -Package all -Version 1.0.1 -Remote github
+```
+
 The script checks for a clean worktree, copies only the client publishing files to a temporary mirror under `.tmp/github-client-publish`, pushes that mirror to GitHub, checks that tags do not already exist, creates tags like `node/v1.0.0` on the mirror commit, and pushes them to GitHub. GitHub Actions does the actual publishing.
 
 ## Easiest Order
+
+### NuGet: four .NET packages
+
+The initial NuGet packages were published manually. For automated future releases, add this GitHub Actions repository secret:
+
+```text
+NUGET_API_KEY = <nuget.org API key with push access to LogInformant* packages>
+```
+
+The existing API key should allow `Push new packages and package versions` for the `LogInformant*` glob. If you did not save the current key value when it was created, regenerate it or create a new key and copy the value immediately; NuGet does not show the key value again later.
+
+Future updates:
+
+```powershell
+.\publish-client-release.ps1 -Package nuget -Version 1.0.1 -Remote github
+```
 
 ### 1. npm: `@loginformant/node`
 
