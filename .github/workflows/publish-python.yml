@@ -40,13 +40,13 @@ jobs:
 
           path = Path("pyproject.toml")
           text = path.read_text(encoding="utf-8")
-          updated = re.sub(
+          updated, replacements = re.subn(
               r'(?m)^version = "[^"]+"$',
               f'version = "{os.environ["PACKAGE_VERSION"]}"',
               text,
               count=1,
           )
-          if updated == text:
+          if replacements != 1:
               raise SystemExit("Could not find project version in pyproject.toml")
           path.write_text(updated, encoding="utf-8")
           PY
